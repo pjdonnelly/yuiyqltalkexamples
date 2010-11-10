@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+        <title>Hide your 2legged OAuth secrets with YQL Storage</title>
+        <script type="text/javascript" charset="utf-8" src="http://yui.yahooapis.com/3.2.0/build/yui/yui-min.js">
+        </script>
+    </head>
+    <body>
+    	<div id="title"></div>
+        <div id="img"></div>
+		
+        <script type="application/javascript">        	
+			YUI().use('node','yql', function(Y) {
+                var titlediv = Y.one('#title');
+				var imgdiv = Y.one('#img');
+                
+				//use YQLRequest if you need to change the protocol to https, otherwise you can use the regular Y.YQL module.
+				
+                Y.YQL = new Y.YQLRequest('select * from netflix.catalog(1) where term = "breaking away"', function(r){
+						var title = r.query.results.catalog_title.title.regular;	
+	                    var img = '<img src="'+r.query.results.catalog_title.box_art.large+'">';
+	                    titlediv.append(title); 
+						imgdiv.append(img);                    
+				}, {
+					base: '://query.yahooapis.com/v1/yql?',
+					env: 'store://257Bv7SEAYewPfoOdKMEvB'
+				}, {
+					proto: 'https'
+				}).send();
+            });
+        </script>
+    </body>
+</html>

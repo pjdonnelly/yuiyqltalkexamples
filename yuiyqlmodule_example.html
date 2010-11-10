@@ -1,0 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+        <title>YUI3 YQL Module example</title>
+        <script type="text/javascript" charset="utf-8" src="http://yui.yahooapis.com/3.2.0/build/yui/yui-min.js">
+        </script>
+    </head>
+    <body>
+        <div id="results"></div>
+        <script type="application/javascript">        	
+			YUI().use('node','yql', function(Y) {
+			    var res = Y.one('#results');
+			    
+			    Y.YQL('select url from search.images(5) where query in (select title from rss where url="http://buzzlog.buzz.yahoo.com/feeds/buzzactm.xml")', function(r){
+								    
+			        Y.each(r.query.results.result, function(v){
+			            var img = '<img src="'+v.url+'">';
+			            res.append(img);
+			        });
+			    });
+			});
+        </script>
+    </body>
+</html>
