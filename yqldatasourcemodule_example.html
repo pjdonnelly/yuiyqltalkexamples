@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+        <title>Untitled Document</title>
+        <script type="text/javascript" charset="utf-8" src="http://yui.yahooapis.com/3.2.0/build/yui/yui-min.js">
+        </script>
+    </head>
+    <body>
+        <div id="results"></div>
+        <script type="application/javascript"> 
+			YUI().use("node","datasource-get", "datasource-jsonschema", function(Y) {
+				var res = Y.one('#results');
+				
+			    var myDataSource = new Y.DataSource.Get({
+			        source:"http://query.yahooapis.com/v1/public/yql?format=json&"}),
+			        myCallback = {
+			            success: function(e){			                
+							Y.each(e.response.results, function(v){
+		                        var img = '<img src="'+v.url+'">';
+		                        res.append(img);
+		                    });
+			            },
+			            failure: function(e){
+			                alert("Could not retrieve data: " + e.error.message);
+			            }
+			        };
+			 
+			    myDataSource.plug(Y.Plugin.DataSourceJSONSchema, {
+			        schema: {
+			            resultListLocator: "query.results.result",
+			            resultFields: ["url"]
+			        }
+			    });
+			 
+			    myDataSource.sendRequest({
+			        request:"q=select%20url%20from%20search.images(5)%20where%20query%20in%20(select%20title%20from%20rss%20where%20url%3D%22http%3A%2F%2Fbuzzlog.buzz.yahoo.com%2Ffeeds%2Fbuzzactm.xml%22)",
+			        callback:myCallback
+			    });
+			});
+        </script>
+    </body>
+</html>
