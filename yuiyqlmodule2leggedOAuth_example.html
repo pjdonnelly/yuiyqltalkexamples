@@ -8,25 +8,25 @@
     </head>
     <body>
         <div id="results"></div>
-        <script type="application/javascript">        	
-			YUI({ gallery: 'gallery-2010.08.11-20-39' }).use('node', 'yql', 'gallery-oauth', function(Y) {
-				Y.oAuth.ready(function() {
-					
-					var res = Y.one('#results');
+        <script type="application/javascript">          
+            YUI({ gallery: 'gallery-2010.08.11-20-39' }).use('node', 'yql', 'gallery-oauth', function(Y) {
+                Y.oAuth.ready(function() {
+                    
+                var res = Y.one('#results');
                 
-	                Y.YQL('select url from search.images(5) where query in (select title from rss where url="http://buzzlog.buzz.yahoo.com/feeds/buzzactm.xml")', function(r){	                                    
-	                    Y.each(r.query.results.result, function(v){
-	                        var img = '<img src="'+v.url+'">';
-	                        res.append(img);
-	                    });
-	                }, {
-						//get these at https://developer.apps.yahoo.com/dashboard/createKey.html
-					    key: '<your key>',
-					    secret: '<your secret>', 
-					    base: '://query.yahooapis.com/v1/yql?'
-					});			
-				});			
-			});
+                    Y.YQL('select url from search.images(5) where query in (select title from rss where url="http://buzzlog.buzz.yahoo.com/feeds/buzzactm.xml")', function(r){                                      
+                        Y.each(r.query.results.result, function(v){
+                            var img = '<img src="'+v.url+'">';
+                            res.append(img);
+                        });
+                    }, {
+                        //get these at https://developer.apps.yahoo.com/dashboard/createKey.html
+                        key: '<your key>',
+                        secret: '<your secret>', 
+                        base: '://query.yahooapis.com/v1/yql?'
+                    });         
+                });         
+            });
         </script>
     </body>
 </html>
